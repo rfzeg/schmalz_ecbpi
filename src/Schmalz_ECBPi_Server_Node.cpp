@@ -12,7 +12,7 @@ int main(int argc, char* argv[]){
 	// Advertise the state (process data out) of the device
 	ros::Publisher state_publisher = nh_priv.advertise<schmalz_ecbpi::State>("State", 10);
 
-	// Subscribe to the command packet
+  // Subscribe to the command packet
 	ros::Subscriber cmd_subscriber = nh_priv.subscribe("Command", 10, commandCB);
 
 
@@ -36,6 +36,9 @@ int main(int argc, char* argv[]){
 	ros::ServiceServer setInitialSettings_Srv 	= nh_priv.advertiseService("SetInitialSettings", setInitialSettings_SrvCB);
 	ros::ServiceServer setProfile_Srv 			= nh_priv.advertiseService("SetProfile", setProfile_SrvCB);
 
+  // USER MADE TYPE
+  ros::ServiceServer gripper_on_Srv 	= nh_priv.advertiseService("GripperON", init_SrvCB);
+  ros::ServiceServer gripper_off_Srv 	= nh_priv.advertiseService("GripperOFF", init_SrvCB);
 
 	ros::Rate rate(20);
 
@@ -257,4 +260,52 @@ bool setProfile_SrvCB(schmalz_ecbpi::SetProfile::Request &req, schmalz_ecbpi::Se
 	cobot_pump.setProfile(req.profile, req.profile_no);
 	cobot_pump.uploadProfile(req.profile_no);
 	return true;
+}
+
+
+
+bool gripper_on_SrvCB(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res)
+{
+  if (cobot_pump.connect() == 0)
+  {
+    schmalz_ecbpi::Command cmd;
+    cmd.suction = 1;
+    cmd.blow_off = 0;
+
+    cobot_pump.setCommand(cmd);
+    cobot_pump.uploadCommand();
+
+    res.message = "Sucessfully gripper activated.";
+    res.success = true;
+  }
+
+  else
+  {
+    res.message = "Failed to activate gripper, need to initialize the device.";
+    res.success = false;
+  }
+  return true;
+}
+
+bool gripper_off_SrvCB(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res)
+{
+  if (cobot_pump.connect() == 0)
+  {
+    schmalz_ecbpi::Command cmd;
+    cmd.suction = 0;
+    cmd.blow_off = 1;
+
+    cobot_pump.setCommand(cmd);
+    cobot_pump.uploadCommand();
+
+    res.message = "Sucessfully gripper deactivated.";
+    res.success = true;
+  }
+
+  else
+  {
+    res.message = "Failed to deactivate gripper, need to initialize the device.";
+    res.success = false;
+  }
+  return true;
 }
