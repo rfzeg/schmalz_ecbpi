@@ -24,6 +24,7 @@
 #include "schmalz_ecbpi/SetInitialSettings.h"
 #include "schmalz_ecbpi/SetProfile.h"
 
+#include "schmalz_ecbpi/GripperOnOff.h"
 
 // GLOBAL VARIABLES
 PortAttributes port_attributes;
@@ -58,7 +59,6 @@ bool getObservation_SrvCB(schmalz_ecbpi::GetObservation::Request &req, schmalz_e
 bool setInitialSettings_SrvCB(schmalz_ecbpi::SetInitialSettings::Request &req, schmalz_ecbpi::SetInitialSettings::Response &res);
 bool setProfile_SrvCB(schmalz_ecbpi::SetProfile::Request &req, schmalz_ecbpi::SetProfile::Response &res);
 
-bool gripper_on_SrvCB(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res);
-bool gripper_off_SrvCB(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res);
+bool gripperOnOff_SrvCB(schmalz_ecbpi::GripperOnOff::Request &req, schmalz_ecbpi::GripperOnOff::Response &res);
 
 #endif //__SCHMALZ_ECBPI_NODE_H__

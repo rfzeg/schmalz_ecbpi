@@ -1,0 +1,14 @@
+uint8 start
+uint8 stop
+---
+bool success
+string message
+uint16 current_pressure
+
+# Summary: gripper on off service
+#
+# start/stop: 1/0 - on/off vacuum pump
+#
+# success: turn on off vacuum successfully
+# message: debug message
+#current_pressure: pressure use for successfully grasp

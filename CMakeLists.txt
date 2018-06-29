@@ -77,6 +77,7 @@ add_service_files(
   	GetInitialSettings.srv
   	GetObservation.srv
   	GetProfile.srv
+        GripperOnOff.srv
   	SetInitialSettings.srv
   	SetProfile.srv
 )

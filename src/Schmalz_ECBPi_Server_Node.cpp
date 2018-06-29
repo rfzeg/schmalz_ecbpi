@@ -37,8 +37,7 @@ int main(int argc, char* argv[]){
 	ros::ServiceServer setProfile_Srv 			= nh_priv.advertiseService("SetProfile", setProfile_SrvCB);
 
   // USER MADE TYPE
-  ros::ServiceServer gripper_on_Srv 	= nh_priv.advertiseService("GripperON", init_SrvCB);
-  ros::ServiceServer gripper_off_Srv 	= nh_priv.advertiseService("GripperOFF", init_SrvCB);
+  ros::ServiceServer gripper_on_off_Srv 	= nh_priv.advertiseService("GripperOnOff", gripperOnOff_SrvCB);
 
 	ros::Rate rate(20);
 
@@ -264,13 +263,13 @@ bool setProfile_SrvCB(schmalz_ecbpi::SetProfile::Request &req, schmalz_ecbpi::Se
 
 
 
-bool gripper_on_SrvCB(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res)
+bool gripperOnOff_SrvCB(schmalz_ecbpi::GripperOnOff::Request &req, schmalz_ecbpi::GripperOnOff::Response &res)
 {
   if (cobot_pump.connect() == 0)
   {
     schmalz_ecbpi::Command cmd;
-    cmd.suction = 1;
-    cmd.blow_off = 0;
+    cmd.suction = req.start;
+    cmd.blow_off = req.stop;
 
     cobot_pump.setCommand(cmd);
     cobot_pump.uploadCommand();
@@ -283,29 +282,7 @@ bool gripper_on_SrvCB(std_srvs::Trigger::Request &req, std_srvs::Trigger::Respon
   {
     res.message = "Failed to activate gripper, need to initialize the device.";
     res.success = false;
-  }
-  return true;
-}
-
-bool gripper_off_SrvCB(std_srvs::Trigger::Request &req, std_srvs::Trigger::Response &res)
-{
-  if (cobot_pump.connect() == 0)
-  {
-    schmalz_ecbpi::Command cmd;
-    cmd.suction = 0;
-    cmd.blow_off = 1;
-
-    cobot_pump.setCommand(cmd);
-    cobot_pump.uploadCommand();
-
-    res.message = "Sucessfully gripper deactivated.";
-    res.success = true;
-  }
-
-  else
-  {
-    res.message = "Failed to deactivate gripper, need to initialize the device.";
-    res.success = false;
+    return false;
   }
   return true;
 }
