@@ -1,0 +1,12 @@
+device_name: /dev/ttyACM0
+baud_rate: 9600
+
+#default values
+# parity: 0
+# byte_size: 8
+# stop_bit: 1
+# time_out: 1
+# hardware_ctrl: 0
+# software_ctrl: 0
+# raw_input: 1
+# raw_output: 1

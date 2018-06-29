@@ -1,0 +1,7 @@
+<launch>
+	<arg name="server_name" value="schmalz_ecbpi_server_node" />
+
+	<rosparam command="load" file="$(find schmalz_ecbpi)/launch/schmalz_ecbpi.yaml" ns="$(arg server_name)"/>
+	
+	<node pkg="schmalz_ecbpi" type="schmalz_ecbpi_server_node" name="$(arg server_name)" output="screen" />
+</launch>

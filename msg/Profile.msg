@@ -1,0 +1,8 @@
+uint8 control_mode
+uint16 set_point_H1
+uint16 set_point_H2
+uint16 hyteresis_h2
+uint8 speed
+uint16 lay_down_time
+uint16 permit_evac_time
+uint16 permit_leakage_rate

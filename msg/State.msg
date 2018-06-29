@@ -1,0 +1,10 @@
+Header header
+uint8 H1
+uint8 H2
+uint8 H3
+uint8 control_mode
+uint8 epc_select_ack
+uint8 cm_autoset_ack
+uint8 epc_value_1
+uint16 epc_value_2
+uint8 status

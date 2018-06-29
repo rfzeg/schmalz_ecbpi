@@ -1,0 +1,4 @@
+string vendor_name
+string product_name
+string serial_number
+string article_number
