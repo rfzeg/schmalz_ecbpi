@@ -274,12 +274,17 @@ bool gripperOnOff_SrvCB(schmalz_ecbpi::GripperOnOff::Request &req, schmalz_ecbpi
     cobot_pump.setCommand(cmd);
     cobot_pump.uploadCommand();
 
+    // read value of pressure in order to check wheater object is grasp or not
+    cobot_pump.downloadObservation();
+    res.current_pressure = cobot_pump.getObservation().state.epc_value_2;
+
     res.message = "Sucessfully gripper activated.";
     res.success = true;
   }
 
   else
   {
+	res.current_pressure = 0;
     res.message = "Failed to activate gripper, need to initialize the device.";
     res.success = false;
     return false;
